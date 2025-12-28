@@ -1,47 +1,42 @@
-package DeliverySystem;
-
-/*
-* This is my DeliverySystem application
-* there are three entities-Sender,ExpressDelivery,StandardDelivery
-* for Sender --> packageId,deliveryCharge,deliveryType,weight;
-* for ExpressDelivery --> packageId,deliveryCharge
-* for StandardDelivery --> packageId,deliveryCharge
-* ExpressDelivery,StandardDelivery both perform shipPackage(int kg) and cancelShipment()
-* ExpressDelivery can have priorityHandling() method
-* StandardDelivery can have combinePackages() method
-* */
+package VehicleRent;
 
 public class Main {
-    public static void main(String[] args){
-        SenderInterface sender=new Sender();
-        sender.setPackageId(2277);
-        sender.setDeliveryCharge(500);
-        sender.setDeliveryType("Express");
-        sender.setWeight(10);
+    public static void main(String[] args) {
+        CustomerInterface customer = new Customer();
+        customer.setVehicleNo(6677);
+        customer.setRent(100);
+        customer.setVehicleType("Bike");
+        customer.setRentDays(3);
 
-        ExpressDeliveryInterface express=new ExpressDelivery();
-        if (sender.getDeliveryType()=="Express"){
-            System.out.println("=====Sender 1:EXPRESS=====");
-            express.setPackageId(sender.getPackageId());
-            express.shipPackage(5);
-            System.out.println("DeliveryCharge:");
-            System.out.println(express.getDeliveryCharge());
-            express.priorityHandling();
+        BikeInterface bike=new Bike();
+        if (customer.getVehicleType() == "Bike") {
+            System.out.println("=====CUSTOMER1:BIKE=====");
+            bike.setVehicleNo(customer.getVehicleNo());
+            bike.setRent(customer.getRent());
+            bike.book(3);
+            System.out.println("Rent Days:");
+            System.out.println(customer.getRentDays());
+            System.out.println("Rent:");
+            System.out.println(bike.getRent());
+            bike.helmetIncluded();
         }
-        SenderInterface sender2=new Sender();
-        sender2.setPackageId(3344);
-        sender2.setDeliveryCharge(500);
-        sender2.setDeliveryType("Standard");
-        sender2.setWeight(10);
+        CustomerInterface customer2 = new Customer();
+        customer2.setVehicleNo(2244);
+        customer2.setRent(200);
+        customer2.setVehicleType("Car");
+        customer2.setRentDays(5);
 
-        StandardDeliveryInterface standard=new StandardDelivery();
-        if (sender2.getDeliveryType()=="Standard"){
-            System.out.println("=====Sender 2:STANDARD=====");
-            standard.setPackageId(sender2.getPackageId());
-            standard.shipPackage(5);
-            System.out.println("DeliveryCharge:");
-            System.out.println(standard.getDeliveryCharge());
-            standard.combinePackages();
+        CarInterface car=new Car();
+        if (customer2.getVehicleType() == "Car"){
+            System.out.println("=====CUSTOMER2:BIKE=====");
+            car.setVehicleNo(customer2.getVehicleNo());
+            car.setRent(customer2.getRent());
+            car.book(3);
+            System.out.println("Rent Days:");
+            System.out.println(customer2.getRentDays());
+            System.out.println("Rent:");
+            System.out.println(car.getRent());
+            car.driverIncluded();
         }
     }
 }

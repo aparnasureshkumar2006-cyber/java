@@ -1,18 +1,18 @@
-package DeliverySystem;
+package VehicleRent;
 
-public class BaseFunctionalitise implements BaseFunctionalitiseInterface{
-    private int packageId;
-    private int deliveryCharge;
-    public int getPackageId() {
-        return packageId;
+public abstract class BaseFunctionalitise implements BaseFunctionalitiseInterface{
+    private int vehicleNo;
+    private int rent;
+    public int getVehicleNo() {
+        return vehicleNo;
     }
-    public int getDeliveryCharge() {
-        return deliveryCharge;
+    public int getRent() {
+        return rent;
     }
-    public void setPackageId(int packageId) {
-        this.packageId = packageId;
+    public void setVehicleNo(int vehicleNo) {
+        this.vehicleNo = vehicleNo;
     }
-    public void setDeliveryCharge(int deliveryCharge) {
-        this.deliveryCharge = deliveryCharge;
+    public void setRent(int rent) {
+        this.rent = rent;
     }
 }
