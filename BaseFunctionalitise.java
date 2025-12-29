@@ -1,18 +1,25 @@
-package VehicleRent;
+package Banking;
 
-public abstract class BaseFunctionalitise implements BaseFunctionalitiseInterface{
-    private int vehicleNo;
-    private int rent;
-    public int getVehicleNo() {
-        return vehicleNo;
+public class BaseFunctionalitise implements BaseFunctionalitiseInterface{
+    private int accountNumber;
+    private int balance;
+    private String name;
+    public int getAccountNumber() {
+        return accountNumber;
     }
-    public int getRent() {
-        return rent;
+    public int getBalance() {
+        return balance;
     }
-    public void setVehicleNo(int vehicleNo) {
-        this.vehicleNo = vehicleNo;
+    public String getName() {
+        return name;
     }
-    public void setRent(int rent) {
-        this.rent = rent;
+    public void setAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

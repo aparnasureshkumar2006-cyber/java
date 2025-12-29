@@ -1,8 +1,10 @@
-package VehicleRent;
+package Banking;
 
 public interface BaseFunctionalitiseInterface {
-    public int getVehicleNo();
-    public int getRent();
-    public void setVehicleNo(int vehicleNo);
-    public void setRent(int rent);
+    public int getAccountNumber();
+    public int getBalance();
+    public String getName();
+    public void setAccountNumber(int accountNumber);
+    public void setBalance(int balance);
+    public void setName(String name);
 }

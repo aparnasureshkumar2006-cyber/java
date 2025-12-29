@@ -1,42 +1,45 @@
-package VehicleRent;
+package Banking;
 
 public class Main {
     public static void main(String[] args) {
-        CustomerInterface customer = new Customer();
-        customer.setVehicleNo(6677);
-        customer.setRent(100);
-        customer.setVehicleType("Bike");
-        customer.setRentDays(3);
+        UserInterface user = new User();
+        user.setDepositAmount(10000);
+        user.setWithdrawAmount(1000);
+        user.setAccountType("Savings");
+        user.setName("USER 1:SAVINGS");
+        user.setBalance(10000);
 
-        BikeInterface bike=new Bike();
-        if (customer.getVehicleType() == "Bike") {
-            System.out.println("=====CUSTOMER1:BIKE=====");
-            bike.setVehicleNo(customer.getVehicleNo());
-            bike.setRent(customer.getRent());
-            bike.book(3);
-            System.out.println("Rent Days:");
-            System.out.println(customer.getRentDays());
-            System.out.println("Rent:");
-            System.out.println(bike.getRent());
-            bike.helmetIncluded();
+        SavingsAccountInterface savings=new SavingsAccount();
+        if (user.getAccountType()=="Savings"){
+            savings.setName(user.getName());
+            System.out.println(savings.getName());
+            savings.setAccountNumber(user.getAccountNumber());
+            System.out.println("Deposited:");
+            System.out.println(user.getDepositAmount());
+            savings.deposit(10000);
+            System.out.println("Balance:");
+            System.out.println(savings.getBalance());
+            savings.createFixedDeposit();
         }
-        CustomerInterface customer2 = new Customer();
-        customer2.setVehicleNo(2244);
-        customer2.setRent(200);
-        customer2.setVehicleType("Car");
-        customer2.setRentDays(5);
 
-        CarInterface car=new Car();
-        if (customer2.getVehicleType() == "Car"){
-            System.out.println("=====CUSTOMER2:BIKE=====");
-            car.setVehicleNo(customer2.getVehicleNo());
-            car.setRent(customer2.getRent());
-            car.book(3);
-            System.out.println("Rent Days:");
-            System.out.println(customer2.getRentDays());
-            System.out.println("Rent:");
-            System.out.println(car.getRent());
-            car.driverIncluded();
+        UserInterface user2 = new User();
+        user2.setDepositAmount(10000);
+        user2.setWithdrawAmount(1000);
+        user2.setAccountType("Current");
+        user2.setName("USER 2:CURRENT");
+        user2.setBalance(10000);
+
+        CurrentAccountInterface current=new CurrentAccount();
+        if (user2.getAccountType()=="Current"){
+            current.setName(user2.getName());
+            System.out.println(current.getName());
+            current.setAccountNumber(user2.getAccountNumber());
+            System.out.println("Deposited:");
+            System.out.println(user2.getDepositAmount());
+            current.deposit(10000);
+            System.out.println("Balance:");
+            System.out.println(current.getBalance());
+            current.enableOverdraft();
         }
     }
 }
