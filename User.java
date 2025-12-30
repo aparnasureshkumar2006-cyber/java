@@ -1,25 +1,41 @@
-package Banking;
+package TicketBookingSystem;
 
-public class User extends BaseFunctionalitise implements UserInterface{
-    private int depositAmount;
-    private int withdrawAmount;
-    private String accountType;
-    public int getDepositAmount() {
-        return depositAmount;
+public class User {
+    private String ticketId;
+    private int price;
+    private String ticketType;
+    private int seats;
+
+    //user define Constructor
+    public User(String ticketId,int price,String ticketType,int seats){
+        this.ticketId=ticketId;
+        this.price=price;
+        this.ticketType=ticketType;
+        this.seats=seats;
     }
-    public int getWithdrawAmount() {
-        return withdrawAmount;
+
+    public String getTicketId() {
+        return ticketId;
     }
-    public String getAccountType() {
-        return accountType;
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
     }
-    public void setDepositAmount(int depositAmount) {
-        this.depositAmount = depositAmount;
+    public int getPrice() {
+        return price;
     }
-    public void setWithdrawAmount(int withdrawAmount) {
-        this.withdrawAmount = withdrawAmount;
+    public void setPrice(int price) {
+        this.price = price;
     }
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
+    public String getTicketType() {
+        return ticketType;
+    }
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
+    }
+    public int getSeats() {
+        return seats;
+    }
+    public void setSeats(int seats) {
+        this.seats = seats;
     }
 }
