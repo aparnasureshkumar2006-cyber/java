@@ -1,152 +1,268 @@
-package CourseEnrollmentSystem;
+package MovieTicketSystem;
+/*Today problem statement!!
+🎬 *Assignment: Movie Ticket Booking System*
 
-/*
-*Assignment: Course Enrollment System*
-
-*3 Entities:* Student, OnlineCourse, OfflineCourse
+*3 Entities:* Viewer, GoldScreen, SilverScreen
 
 ─────────────────
 *VERSION 1: Basic*
 ─────────────────
 
-*Student*
-• Knows: duration, courseType (Constructor with params)
-• Unknown: courseId, fee
+*Viewer*
+• Knows: (from INPUT via Scanner)
+  - numberOfSeats
+  - screenType (GOLD / SILVER)
+  - wantsSnacks (YES / NO)
+  - snackQuantity
+• Unknown: bookingId, ticketPrice, snackPrice, totalBill
 • Default Constructor (empty)
 
-*OnlineCourse & OfflineCourse*
-• Knows: courseId, fee (Constructor with params)
-• Unknown: duration
+*GoldScreen & SilverScreen*
+• Knows: bookingId, ticketPrice, snackPrice, totalBill (Constructor with params)
+• Unknown: numberOfSeats, wantsSnacks, snackQuantity
 • Default Constructor (empty)
 
-*Method:*
-• enroll(int duration)
-  - Receives duration as param
-  - No return
-  - Modifies fee (Online: duration * 500, Offline: duration * 1000)
-  - Prints "Enrolled for " + duration + " months"
+─────────────────
+*Methods (Complex):*
+─────────────────
+
+*Method 1: calculateTicketPrice()*
+  - No params (gets numberOfSeats from viewer reference)
+  - Modifies ticketPrice
+  - Logic:
+    • Gold: ticketPrice = numberOfSeats * 500
+    • Silver: ticketPrice = numberOfSeats * 200
+  - Prints "Ticket Price: " + ticketPrice
+
+*Method 2: calculateSnackPrice()*
+  - No params (gets wantsSnacks, snackQuantity from viewer reference)
+  - Modifies snackPrice
+  - Logic:
+    • If wantsSnacks == "YES"
+      → Gold: snackPrice = snackQuantity * 150 (premium snacks)
+      → Silver: snackPrice = snackQuantity * 80 (regular snacks)
+    • If wantsSnacks == "NO"
+      → snackPrice = 0
+  - Prints "Snack Price: " + snackPrice
+
+*Method 3: generateBill()*
+  - No params
+  - Modifies totalBill
+  - Logic:
+    • Gold: totalBill = ticketPrice + snackPrice + 100 (convenience fee)
+    • Silver: totalBill = ticketPrice + snackPrice + 50 (convenience fee)
+  - Prints "Total Bill: " + totalBill
+
+*Method 4: applyDiscount()*
+  - No params
+  - Modifies totalBill
+  - Logic:
+    • If numberOfSeats >= 4 → Apply 10% discount
+    • Else → No discount
+  - Prints "Discount Applied: " + discountAmount
 
 ─────────────────
-*Main Logic V1:*
+*Main Logic (Complex):*
 ─────────────────
-Student1
-→ Known student (constructor with duration, courseType)
-Student2
-→ Empty student
-→ set duration
-→ set courseType
-if (student is ONLINE)
-Create Known OnlineCourse
-perform enroll with onlineCourse
-convey the courseId to student
-convey the changed fee to student
-if (student is OFFLINE)
-Create Empty OfflineCourse
-set courseId
-set fee
-perform enroll with offlineCourse
-convey the courseId to student
-convey the changed fee to student
-print student1 fee and courseId with getter
-print student2 fee and courseId with getter
+
+// ===== VIEWER 1 =====
+Viewer1 → Create Empty Viewer
+→ Take numberOfSeats from INPUT
+→ Take screenType from INPUT
+→ Take wantsSnacks from INPUT
+→ If wantsSnacks == "YES" → Take snackQuantity from INPUT
+→ set all values
+if (viewer1 is GOLD)
+Create Known GoldScreen with viewer1 reference
+share address of goldScreen to viewer1
+perform calculateTicketPrice()
+perform calculateSnackPrice()
+perform generateBill()
+perform applyDiscount()
+print "===== BOOKING SUMMARY ====="
+print viewer1.getGoldScreen().getBookingId()
+print viewer1.getGoldScreen().getTicketPrice()
+print viewer1.getGoldScreen().getSnackPrice()
+print viewer1.getGoldScreen().getTotalBill()
+if (viewer1 is SILVER)
+Create Known SilverScreen with viewer1 reference
+share address of silverScreen to viewer1
+perform calculateTicketPrice()
+perform calculateSnackPrice()
+perform generateBill()
+perform applyDiscount()
+print "===== BOOKING SUMMARY ====="
+print viewer1.getSilverScreen().getBookingId()
+print viewer1.getSilverScreen().getTicketPrice()
+print viewer1.getSilverScreen().getSnackPrice()
+print viewer1.getSilverScreen().getTotalBill()
+// ===== VIEWER 2 =====
+(Same logic for viewer2)
+// ===== COMPARISON =====
+if (viewer1.getTotalBill() > viewer2.getTotalBill())
+print "Viewer 1 paid more!"
+else if (viewer2.getTotalBill() > viewer1.getTotalBill())
+print "Viewer 2 paid more!"
+else
+print "Both paid same amount!"
 
 
 ─────────────────
 *VERSION 2: Association*
 ─────────────────
 
-problem:*
-Every time: Student → Main → Course to get details and vice versa.
+*Viewer Changes:*
+• Remove: bookingId, ticketPrice, snackPrice, totalBill
+• Add: goldScreen variable (getter/setter)
+• Add: silverScreen variable (getter/setter)
 
-*Solution:*
-Mak*Pe Student aware of Course and vice versa by storing addresses!
+*GoldScreen Changes:*
+• Remove: numberOfSeats, wantsSnacks, snackQuantity
+• Add: viewer variable (getter/setter)
+• Access values via: viewer.getNumberOfSeats(), viewer.getWantsSnacks()
 
-*Student Changes:*
-• Remove: courseId, fee (dependent on Course)
-• Add: onlineCourse variable (getter/setter)
-• Add: offlineCourse variable (getter/setter)
-• Access fee via: onlineCourse.getFee() or offlineCourse.getFee()
-
-*OnlineCourse Changes:*
-• Remove: duration (dependent on Student)
-• Add: student variable (getter/setter)
-• Access duration via: student.getDuration()
-
-*OfflineCourse Changes:*
-• Remove: duration (dependent on Student)
-• Add: student variable (getter/setter)
-• Access duration via: student.getDuration()
+*SilverScreen Changes:*
+• Remove: numberOfSeats, wantsSnacks, snackQuantity
+• Add: viewer variable (getter/setter)
+• Access values via: viewer.getNumberOfSeats(), viewer.getWantsSnacks()
 
 ─────────────────
-*Main Logic V2:*
+*Expected Input:*
 ─────────────────
 
-if (student is ONLINE)
-Create Known OnlineCourse
-perform enroll with onlineCourse
-share address of onlineCourse to student
-share address of student to onlineCourse
-if (student is OFFLINE)
-Create Empty OfflineCourse
-set courseId
-set fee
-perform enroll with offlineCourse
-share address of offlineCourse to student
-share address of student to offlineCourse
-// Now student can directly access fee!
-print student1.getOnlineCourse().getFee()
-print student2.getOfflineCourse().getFee()
-─────────────────*Expected Output:*─────────────────
-Enrolled for 3 months
-Enrolled for 6 months
-Student 1 Fee: 1500 | CourseId: C101
-Student 2 Fee: 6000 | CourseId: C202
- */
+===== VIEWER 1 =====
+Enter number of seats:
+5
+Enter screen type (GOLD/SILVER):
+Gold
+Want snacks? (YES/NO):
+YES
+Enter snack quantity:
+3
+===== VIEWER 2 =====
+Enter number of seats:
+2
+Enter screen type (GOLD/SILVER):
+Silver
+Want snacks? (YES/NO):
+NO
+
+
+─────────────────
+*Expected Output:*
+─────────────────
+===== VIEWER 1: GOLD =====
+Ticket Price: 2500
+Snack Price: 450
+Total Bill: 3050
+Discount Applied: 305
+Final Bill: 2745
+BookingId: G101
+===== VIEWER 2: SILVER =====
+Ticket Price: 400
+Snack Price: 0
+Total Bill: 450
+Discount Applied: 0
+Final Bill: 450
+BookingId: S202
+===== COMPARISON =====
+Viewer 1 paid more!*/
 
 import java.util.Scanner;
 import java.math.BigInteger;
 public class Main {
     public static void main(String[] args){
-        StudentInterface student=new Student(3,"Online");
-        StudentInterface student1=new Student();
+        Viewer viewer1=new Viewer();
 
-        //get input from the terminal
-        Scanner sc=new Scanner(System.in);
-        System.out.println("Enter the Duration:");
+        System.out.println("=====VIEWER 1=====");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the Number of Seats:");
         BigInteger input=new BigInteger(sc.nextLine());
-        System.out.println("Enter the Course type:");
-        String inputType= sc.nextLine();
-        student1.setDuration(input.intValue());
-        student1.setCourseType(inputType);
+        System.out.println("Enter the Screen Type:");
+        String inputType=sc.nextLine();
+        System.out.println("Do you want snacks?");
+        String inputSnack=sc.nextLine();
+        System.out.println("Enter the Snack Quantity:");
+        BigInteger inputSq=new BigInteger(sc.nextLine());
+        viewer1.setNumberOfSeats(input.intValue());
+        viewer1.setScreenType(inputType);
+        viewer1.setWantsSnacks(inputSnack);
+        viewer1.setSnackQuantity(inputSq.intValue());
 
-        if(student.getCourseType()=="Online"){
-            CourseInterface oc=new OnlineCourse("AZ1",1000);
-            oc.setStudent(student);
-            System.out.println("=====STUDENT1=====");
-            oc.enroll();
-            System.out.println(student.getOnlineCourse().getFees());
+        if(viewer1.getScreenType().equals("Gold")){
+            GoldScreen gs=new GoldScreen("AZ!1",100,100,200,viewer1);
+            System.out.println("=====VIEWER 1=====");
+            gs.setViewer(viewer1);
+            gs.calculateTicketPrice();
+            gs.calculateSnackPrice();
+            gs.generateBill();
+            gs.applyDiscount();
+            System.out.println("=====BOOKING SUMMARY=====");
+            System.out.println(viewer1.getGoldScreen().getBookingId());
+            System.out.println(viewer1.getGoldScreen().getTicketPrice());
+            System.out.println(viewer1.getGoldScreen().getSnackPrice());
+            System.out.println(viewer1.getGoldScreen().getTotalBill());
         }
         else{
-            CourseInterface offc=new OfflineCourse("AZ1",1000);
-            offc.setStudent(student);
-            System.out.println("=====STUDENT1=====");
-            offc.enroll();
-            System.out.println(student.getOfflineCourse().getFees());
+            SilverScreen ss=new SilverScreen("AZ!1",100,100,200,viewer1);
+            System.out.println("=====VIEWER 1=====");
+            ss.setViewer(viewer1);
+            ss.calculateTicketPrice();
+            ss.calculateSnackPrice();
+            ss.generateBill();
+            ss.applyDiscount();
+            System.out.println("=====BOOKING SUMMARY=====");
+            System.out.println(viewer1.getSilverScreen().getBookingId());
+            System.out.println(viewer1.getSilverScreen().getTicketPrice());
+            System.out.println(viewer1.getSilverScreen().getSnackPrice());
+            System.out.println(viewer1.getSilverScreen().getTotalBill());
         }
 
-        if(student1.getCourseType()=="Online"){
-            CourseInterface oc=new OnlineCourse("AZ1",1000);
-            oc.setStudent(student1);
-            System.out.println("=====STUDENT2=====");
-            oc.enroll();
-            System.out.println(student1.getOnlineCourse().getFees());
+        Viewer viewer2=new Viewer();
+
+        System.out.println("=====VIEWER 2=====");
+        Scanner scc = new Scanner(System.in);
+        System.out.println("Enter the Number of Seats:");
+        BigInteger input1=new BigInteger(scc.nextLine());
+        System.out.println("Enter the Screen Type:");
+        String inputType1=scc.nextLine();
+        System.out.println("Do you want snacks?");
+        String inputSnack1=scc.nextLine();
+        System.out.println("Enter the Snack Quantity:");
+        BigInteger inputSq1=new BigInteger(scc.nextLine());
+        viewer2.setNumberOfSeats(input1.intValue());
+        viewer2.setScreenType(inputType1);
+        viewer2.setWantsSnacks(inputSnack1);
+        viewer2.setSnackQuantity(inputSq1.intValue());
+
+        if(viewer1.getScreenType().equals("Gold")){
+            GoldScreen gs=new GoldScreen("AZ!1",100,100,200,viewer2);
+            System.out.println("=====VIEWER 2=====");
+            gs.setViewer(viewer2);
+            gs.calculateTicketPrice();
+            gs.calculateSnackPrice();
+            gs.generateBill();
+            gs.applyDiscount();
+            System.out.println("=====BOOKING SUMMARY=====");
+            System.out.println(viewer2.getGoldScreen().getBookingId());
+            System.out.println(viewer2.getGoldScreen().getTicketPrice());
+            System.out.println(viewer2.getGoldScreen().getSnackPrice());
+            System.out.println(viewer2.getGoldScreen().getTotalBill());
         }
         else{
-            CourseInterface offc=new OfflineCourse("AZ1",1000);
-            offc.setStudent(student1);
-            System.out.println("=====STUDENT2=====");
-            offc.enroll();
-            System.out.println(student1.getOfflineCourse().getFees());
+            SilverScreen ss=new SilverScreen("AZ!1",100,100,200,viewer2);
+            System.out.println("=====VIEWER 2=====");
+            ss.setViewer(viewer2);
+            ss.calculateTicketPrice();
+            ss.calculateSnackPrice();
+            ss.generateBill();
+            ss.applyDiscount();
+            System.out.println("=====BOOKING SUMMARY=====");
+            System.out.println(viewer2.getSilverScreen().getBookingId());
+            System.out.println(viewer2.getSilverScreen().getTicketPrice());
+            System.out.println(viewer2.getSilverScreen().getSnackPrice());
+            System.out.println(viewer2.getSilverScreen().getTotalBill());
         }
+
     }
 }
