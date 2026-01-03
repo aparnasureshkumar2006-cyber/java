@@ -1,41 +1,62 @@
-package TicketBookingSystem;
+package CalculatorSystem;
 
-public class User {
-    private String ticketId;
-    private int price;
-    private String ticketType;
-    private int seats;
+public class User implements UserInterface{
+    private int num1;
+    private int num2;
+    private int num3;
+    private String calculatorType;
+    private CalculatorInterface adder;
+    private CalculatorInterface multiplier;
 
-    //user define Constructor
-    public User(String ticketId,int price,String ticketType,int seats){
-        this.ticketId=ticketId;
-        this.price=price;
-        this.ticketType=ticketType;
-        this.seats=seats;
+    public User(){
+
     }
 
-    public String getTicketId() {
-        return ticketId;
+    public int getNum1() {
+        return num1;
     }
-    public void setTicketId(String ticketId) {
-        this.ticketId = ticketId;
+
+    public void setNum1(int num1) {
+        this.num1 = num1;
     }
-    public int getPrice() {
-        return price;
+
+    public int getNum2() {
+        return num2;
     }
-    public void setPrice(int price) {
-        this.price = price;
+
+    public void setNum2(int num2) {
+        this.num2 = num2;
     }
-    public String getTicketType() {
-        return ticketType;
+
+    public int getNum3() {
+        return num3;
     }
-    public void setTicketType(String ticketType) {
-        this.ticketType = ticketType;
+
+    public void setNum3(int num3) {
+        this.num3 = num3;
     }
-    public int getSeats() {
-        return seats;
+
+    public String getCalculatorType() {
+        return calculatorType;
     }
-    public void setSeats(int seats) {
-        this.seats = seats;
+
+    public void setCalculatorType(String calculatorType) {
+        this.calculatorType = calculatorType;
+    }
+
+    public CalculatorInterface getAdder() {
+        return adder;
+    }
+
+    public void setAdder(CalculatorInterface adder) {
+        this.adder = adder;
+    }
+
+    public CalculatorInterface getMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier(CalculatorInterface multiplier) {
+        this.multiplier = multiplier;
     }
 }

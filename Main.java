@@ -1,268 +1,223 @@
-package MovieTicketSystem;
-/*Today problem statement!!
-🎬 *Assignment: Movie Ticket Booking System*
+package CalculatorSystem;
 
-*3 Entities:* Viewer, GoldScreen, SilverScreen
+/* *Assignment: Calculator System*
 
-─────────────────
-*VERSION 1: Basic*
-─────────────────
-
-*Viewer*
-• Knows: (from INPUT via Scanner)
-  - numberOfSeats
-  - screenType (GOLD / SILVER)
-  - wantsSnacks (YES / NO)
-  - snackQuantity
-• Unknown: bookingId, ticketPrice, snackPrice, totalBill
-• Default Constructor (empty)
-
-*GoldScreen & SilverScreen*
-• Knows: bookingId, ticketPrice, snackPrice, totalBill (Constructor with params)
-• Unknown: numberOfSeats, wantsSnacks, snackQuantity
-• Default Constructor (empty)
+*Entities:* User, Adder, Multiplier
 
 ─────────────────
-*Methods (Complex):*
+*LEVEL 1: Basic (V1)*
 ─────────────────
 
-*Method 1: calculateTicketPrice()*
-  - No params (gets numberOfSeats from viewer reference)
-  - Modifies ticketPrice
-  - Logic:
-    • Gold: ticketPrice = numberOfSeats * 500
-    • Silver: ticketPrice = numberOfSeats * 200
-  - Prints "Ticket Price: " + ticketPrice
+*User.java*
+• num1, num2, num3, calculatorType
+• calculatorId, result
+• getters/setters
 
-*Method 2: calculateSnackPrice()*
-  - No params (gets wantsSnacks, snackQuantity from viewer reference)
-  - Modifies snackPrice
-  - Logic:
-    • If wantsSnacks == "YES"
-      → Gold: snackPrice = snackQuantity * 150 (premium snacks)
-      → Silver: snackPrice = snackQuantity * 80 (regular snacks)
-    • If wantsSnacks == "NO"
-      → snackPrice = 0
-  - Prints "Snack Price: " + snackPrice
+*Adder.java*
+• calculatorId, result
+• num1, num2, num3
+• getters/setters
+• compute() → num1 + num2 + num3
 
-*Method 3: generateBill()*
-  - No params
-  - Modifies totalBill
-  - Logic:
-    • Gold: totalBill = ticketPrice + snackPrice + 100 (convenience fee)
-    • Silver: totalBill = ticketPrice + snackPrice + 50 (convenience fee)
-  - Prints "Total Bill: " + totalBill
+*Multiplier.java*
+• calculatorId, result
+• num1, num2, num3
+• getters/setters
+• compute() → num1 * num2 * num3
 
-*Method 4: applyDiscount()*
-  - No params
-  - Modifies totalBill
-  - Logic:
-    • If numberOfSeats >= 4 → Apply 10% discount
-    • Else → No discount
-  - Prints "Discount Applied: " + discountAmount
+*Main:* Pass data User → Main → Adder/Multiplier → Main → User
+
+
+*Note all should be with Terminal inputs*
 
 ─────────────────
-*Main Logic (Complex):*
+*LEVEL 2: Association (V2)*
 ─────────────────
 
-// ===== VIEWER 1 =====
-Viewer1 → Create Empty Viewer
-→ Take numberOfSeats from INPUT
-→ Take screenType from INPUT
-→ Take wantsSnacks from INPUT
-→ If wantsSnacks == "YES" → Take snackQuantity from INPUT
-→ set all values
-if (viewer1 is GOLD)
-Create Known GoldScreen with viewer1 reference
-share address of goldScreen to viewer1
-perform calculateTicketPrice()
-perform calculateSnackPrice()
-perform generateBill()
-perform applyDiscount()
-print "===== BOOKING SUMMARY ====="
-print viewer1.getGoldScreen().getBookingId()
-print viewer1.getGoldScreen().getTicketPrice()
-print viewer1.getGoldScreen().getSnackPrice()
-print viewer1.getGoldScreen().getTotalBill()
-if (viewer1 is SILVER)
-Create Known SilverScreen with viewer1 reference
-share address of silverScreen to viewer1
-perform calculateTicketPrice()
-perform calculateSnackPrice()
-perform generateBill()
-perform applyDiscount()
-print "===== BOOKING SUMMARY ====="
-print viewer1.getSilverScreen().getBookingId()
-print viewer1.getSilverScreen().getTicketPrice()
-print viewer1.getSilverScreen().getSnackPrice()
-print viewer1.getSilverScreen().getTotalBill()
-// ===== VIEWER 2 =====
-(Same logic for viewer2)
-// ===== COMPARISON =====
-if (viewer1.getTotalBill() > viewer2.getTotalBill())
-print "Viewer 1 paid more!"
-else if (viewer2.getTotalBill() > viewer1.getTotalBill())
-print "Viewer 2 paid more!"
-else
-print "Both paid same amount!"
+*Problem:* Main is middleman
 
+*Solution:* Share addresses!
+
+*User:*
+• Remove: calculatorId, result
+• Add: adder variable, multiplier variable
+
+*Adder:*
+• Remove: num1, num2, num3
+• Add: user variable
+
+*Multiplier:*
+• Remove: num1, num2, num3
+• Add: user variable
 
 ─────────────────
-*VERSION 2: Association*
+*LEVEL 3: Redundancy (Abstract)*
 ─────────────────
 
-*Viewer Changes:*
-• Remove: bookingId, ticketPrice, snackPrice, totalBill
-• Add: goldScreen variable (getter/setter)
-• Add: silverScreen variable (getter/setter)
+*Problem:* Adder & Multiplier have duplicate code
 
-*GoldScreen Changes:*
-• Remove: numberOfSeats, wantsSnacks, snackQuantity
-• Add: viewer variable (getter/setter)
-• Access values via: viewer.getNumberOfSeats(), viewer.getWantsSnacks()
-
-*SilverScreen Changes:*
-• Remove: numberOfSeats, wantsSnacks, snackQuantity
-• Add: viewer variable (getter/setter)
-• Access values via: viewer.getNumberOfSeats(), viewer.getWantsSnacks()
-
+*Solution:* Create abstract class!
 ─────────────────
-*Expected Input:*
+*LEVEL 4: Security (Interface)*
 ─────────────────
 
-===== VIEWER 1 =====
-Enter number of seats:
-5
-Enter screen type (GOLD/SILVER):
-Gold
-Want snacks? (YES/NO):
-YES
-Enter snack quantity:
-3
-===== VIEWER 2 =====
-Enter number of seats:
-2
-Enter screen type (GOLD/SILVER):
-Silver
-Want snacks? (YES/NO):
-NO
+*Problem:* Implementation exposed
 
+*Solution:* Create interfaces!
+
+*CalculatorInterface*
+• getCalculatorId(), setCalculatorId()
+• getResult(), setResult()
+• compute()
+
+*AdderInterface extends CalculatorInterface*
+
+*MultiplierInterface extends CalculatorInterface*
+
+*Updated Classes:*
+• Calculator implements CalculatorInterface
+• Adder extends Calculator implements AdderInterface
+• Multiplier extends Calculator implements MultiplierInterface
 
 ─────────────────
-*Expected Output:*
+*LEVEL 5: Overloading*
 ─────────────────
-===== VIEWER 1: GOLD =====
-Ticket Price: 2500
-Snack Price: 450
-Total Bill: 3050
-Discount Applied: 305
-Final Bill: 2745
-BookingId: G101
-===== VIEWER 2: SILVER =====
-Ticket Price: 400
-Snack Price: 0
-Total Bill: 450
-Discount Applied: 0
-Final Bill: 450
-BookingId: S202
-===== COMPARISON =====
-Viewer 1 paid more!*/
 
-import java.util.Scanner;
+*Concept:* Same method name, different parameters
+
+*Add to Calculator.java:*
+
+calculate(int a) → return a + a
+
+calculate(int a, int b) → return a + b
+
+calculate(int a, int b, int c) → return a + b + c
+
+*Usage in Main:*
+calculator.calculate(5) → 10
+calculator.calculate(5, 3) → 8
+calculator.calculate(5, 3, 2) → 10
+
+─────────────────
+*LEVEL 6: Overriding*
+─────────────────
+
+*Concept:* Child changes parent's method
+
+*Calculator (Parent):*
+compute() → num1 + num2
+
+*Adder (Child) - OVERRIDES:*
+@Override compute() → num1 + num2 + num3
+
+*Multiplier (Child) - OVERRIDES:*
+@Override compute() → num1 * num2 * num3
+─────────────────
+*INPUT:*
+─────────────────
+
+User1: num1=5, num2=3, num3=2, type=Adder
+User2: num1=4, num2=3, num3=2, type=Multiplier
+
+─────────────────
+*OUTPUT:*
+─────────────────
+
+*USER1 (Adder):*
+Overload: 10, 8, 10
+Override: 10
+
+*USER2 (Multiplier):*
+Overload: 8, 7, 9
+Override: 24
+
+─────────────────
+*PROGRESSION:*
+─────────────────
+
+ Level 1 → V1 Basic (Separate classes, Main passes data)
+ Level 2 → V2 Association (Objects hold references)
+ Level 3 → Abstract class (Remove redundancy)
+ Level 4 → Interface (Add security)
+ Level 5 → Overloading (Same name, different params)
+ Level 6 → Overriding (Child changes parent method)
+ */
+
 import java.math.BigInteger;
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
-        Viewer viewer1=new Viewer();
+        UserInterface user1=new User();
 
-        System.out.println("=====VIEWER 1=====");
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the Number of Seats:");
-        BigInteger input=new BigInteger(sc.nextLine());
-        System.out.println("Enter the Screen Type:");
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter number 1:");
+        BigInteger inputNo1=new BigInteger(sc.nextLine());
+        System.out.println("Enter number 2:");
+        BigInteger inputNo2=new BigInteger(sc.nextLine());
+        System.out.println("Enter number 3:");
+        BigInteger inputNo3=new BigInteger(sc.nextLine());
+        System.out.println("Enter Calculator Type:");
         String inputType=sc.nextLine();
-        System.out.println("Do you want snacks?");
-        String inputSnack=sc.nextLine();
-        System.out.println("Enter the Snack Quantity:");
-        BigInteger inputSq=new BigInteger(sc.nextLine());
-        viewer1.setNumberOfSeats(input.intValue());
-        viewer1.setScreenType(inputType);
-        viewer1.setWantsSnacks(inputSnack);
-        viewer1.setSnackQuantity(inputSq.intValue());
 
-        if(viewer1.getScreenType().equals("Gold")){
-            GoldScreen gs=new GoldScreen("AZ!1",100,100,200,viewer1);
-            System.out.println("=====VIEWER 1=====");
-            gs.setViewer(viewer1);
-            gs.calculateTicketPrice();
-            gs.calculateSnackPrice();
-            gs.generateBill();
-            gs.applyDiscount();
-            System.out.println("=====BOOKING SUMMARY=====");
-            System.out.println(viewer1.getGoldScreen().getBookingId());
-            System.out.println(viewer1.getGoldScreen().getTicketPrice());
-            System.out.println(viewer1.getGoldScreen().getSnackPrice());
-            System.out.println(viewer1.getGoldScreen().getTotalBill());
+        user1.setNum1(inputNo1.intValue());
+        user1.setNum2(inputNo2.intValue());
+        user1.setNum3(inputNo3.intValue());
+        user1.setCalculatorType(inputType);
+
+        if(user1.getCalculatorType().equals("Adder")){
+            AdderInterface add=new Adder("AZ1",user1);
+            System.out.println("====Adder1====");
+            add.setUser(user1);
+            System.out.println("Overload");
+            System.out.println(add.calculate(5));
+            System.out.println(add.calculate(5,5));
+            System.out.println(add.calculate(5,5,5));
+            System.out.println("Override");
+            add.compute();
+
         }
         else{
-            SilverScreen ss=new SilverScreen("AZ!1",100,100,200,viewer1);
-            System.out.println("=====VIEWER 1=====");
-            ss.setViewer(viewer1);
-            ss.calculateTicketPrice();
-            ss.calculateSnackPrice();
-            ss.generateBill();
-            ss.applyDiscount();
-            System.out.println("=====BOOKING SUMMARY=====");
-            System.out.println(viewer1.getSilverScreen().getBookingId());
-            System.out.println(viewer1.getSilverScreen().getTicketPrice());
-            System.out.println(viewer1.getSilverScreen().getSnackPrice());
-            System.out.println(viewer1.getSilverScreen().getTotalBill());
+            MultiplierInterface mul=new Multiplier("BE1",user1);
+            System.out.println("====Multiplier1====");
+            mul.setUser(user1);
+            System.out.println("Override");
+            mul.compute();
         }
 
-        Viewer viewer2=new Viewer();
+        UserInterface user2=new User();
 
-        System.out.println("=====VIEWER 2=====");
-        Scanner scc = new Scanner(System.in);
-        System.out.println("Enter the Number of Seats:");
-        BigInteger input1=new BigInteger(scc.nextLine());
-        System.out.println("Enter the Screen Type:");
-        String inputType1=scc.nextLine();
-        System.out.println("Do you want snacks?");
-        String inputSnack1=scc.nextLine();
-        System.out.println("Enter the Snack Quantity:");
-        BigInteger inputSq1=new BigInteger(scc.nextLine());
-        viewer2.setNumberOfSeats(input1.intValue());
-        viewer2.setScreenType(inputType1);
-        viewer2.setWantsSnacks(inputSnack1);
-        viewer2.setSnackQuantity(inputSq1.intValue());
+        Scanner sca=new Scanner(System.in);
+        System.out.println("Enter number 1:");
+        BigInteger inputNo=new BigInteger(sca.nextLine());
+        System.out.println("Enter number 2:");
+        BigInteger inputNo4=new BigInteger(sca.nextLine());
+        System.out.println("Enter number 3:");
+        BigInteger inputNo5=new BigInteger(sca.nextLine());
+        System.out.println("Enter Calculator Type:");
+        String inputType1=sca.nextLine();
 
-        if(viewer1.getScreenType().equals("Gold")){
-            GoldScreen gs=new GoldScreen("AZ!1",100,100,200,viewer2);
-            System.out.println("=====VIEWER 2=====");
-            gs.setViewer(viewer2);
-            gs.calculateTicketPrice();
-            gs.calculateSnackPrice();
-            gs.generateBill();
-            gs.applyDiscount();
-            System.out.println("=====BOOKING SUMMARY=====");
-            System.out.println(viewer2.getGoldScreen().getBookingId());
-            System.out.println(viewer2.getGoldScreen().getTicketPrice());
-            System.out.println(viewer2.getGoldScreen().getSnackPrice());
-            System.out.println(viewer2.getGoldScreen().getTotalBill());
+        user2.setNum1(inputNo.intValue());
+        user2.setNum2(inputNo4.intValue());
+        user2.setNum3(inputNo5.intValue());
+        user2.setCalculatorType(inputType1);
+
+        if(user2.getCalculatorType().equals("Adder")){
+            AdderInterface add=new Adder("AZ1",user2);
+            System.out.println("====Adder2====");
+            add.setUser(user2);
+            System.out.println("Overload");
+            System.out.println(add.calculate(5));
+            System.out.println(add.calculate(5,5));
+            System.out.println(add.calculate(5,5,5));
+            System.out.println("Override");
+            add.compute();
         }
         else{
-            SilverScreen ss=new SilverScreen("AZ!1",100,100,200,viewer2);
-            System.out.println("=====VIEWER 2=====");
-            ss.setViewer(viewer2);
-            ss.calculateTicketPrice();
-            ss.calculateSnackPrice();
-            ss.generateBill();
-            ss.applyDiscount();
-            System.out.println("=====BOOKING SUMMARY=====");
-            System.out.println(viewer2.getSilverScreen().getBookingId());
-            System.out.println(viewer2.getSilverScreen().getTicketPrice());
-            System.out.println(viewer2.getSilverScreen().getSnackPrice());
-            System.out.println(viewer2.getSilverScreen().getTotalBill());
+            MultiplierInterface mul=new Multiplier("BE1",user2);
+            System.out.println("====Multiplier2====");
+            mul.setUser(user2);
+            System.out.println("Override");
+            mul.compute();
         }
-
     }
 }
